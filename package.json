@@ -1,0 +1,24 @@
+{
+  "author": "Alex Bosworth",
+  "bugs": {
+    "url": "https://github.com/alexbosworth/bolt05/issues"
+  },
+  "dependencies": {
+    "bitcoinjs-lib": "4.0.2"
+  },
+  "description": "Utilities for working with bolt 03",
+  "devDependencies": {
+    "tap": "12.1.1"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "bolt03",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexbosworth/bolt05.git"
+  },
+  "scripts": {
+    "test": "tap test/breaches/*.js"
+  },
+  "version": "1.0.0"
+}
