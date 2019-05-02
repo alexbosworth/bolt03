@@ -1,3 +1,4 @@
+const {channelResolution} = require('./resolutions');
 const {isRemedyWitness} = require('./breaches');
 
-module.exports = {isRemedyWitness};
+module.exports = {channelResolution, isRemedyWitness};

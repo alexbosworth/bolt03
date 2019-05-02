@@ -1,14 +1,14 @@
+const {OP_CHECKSEQUENCEVERIFY} = require('bitcoin-ops');
+const {OP_CHECKSIG} = require('bitcoin-ops');
+const {OP_DROP} = require('bitcoin-ops');
+const {OP_ELSE} = require('bitcoin-ops');
+const {OP_ENDIF} = require('bitcoin-ops');
+const {OP_IF} = require('bitcoin-ops');
 const {script} = require('bitcoinjs-lib');
 
 const {dummyNumberBytes} = require('./constants');
 const {dummyPubKeyBytes} = require('./constants');
 const {dummySignatureBytes} = require('./constants');
-const {OP_CHECKSIG} = require('./constants');
-const {OP_CSV} = require('./constants');
-const {OP_DROP} = require('./constants');
-const {OP_ELSE} = require('./constants');
-const {OP_ENDIF} = require('./constants');
-const {OP_IF} = require('./constants');
 const {opTrueBytes} = require('./constants');
 
 const {decompile} = script;
@@ -21,7 +21,7 @@ const toLocal = [
   Buffer.from(dummyPubKeyBytes, 'hex'),
   OP_ELSE,
   Buffer.from(dummyNumberBytes, 'hex'),
-  OP_CSV,
+  OP_CHECKSEQUENCEVERIFY,
   OP_DROP,
   Buffer.from(dummyPubKeyBytes, 'hex'),
   OP_ENDIF,
