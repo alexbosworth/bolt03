@@ -27,6 +27,14 @@ const tests = [
     description: 'Pay to witness public key hash',
     expected: {type: 'p2wpkh'},
   },
+  {
+    args: {
+      transaction: '020000000001014177feadb67204ea202130aa8d5f1f4e08b622df7d03ddfedeeebedbc4a6b04700000000000600000001b41f6300000000001600148ea753221568a01db63756d79fc691797b07f6650347304402206a56355dbb752fd09730d2382492b5cc6d44101fb42bfff0e6c59dc72ef0125c02207bec1d78f87c3103146f6a3187542f51df06e6c95c05f44b03ac69a89bad110001004b632102891c274b2f7c6d622cb3136a4324ab6a046218885fb37d29eac0c2a8d26ebe8a6756b27521034ca958744047a30dfce11dff5898f2db91a4f64876e43dd7f4c5d277361c1dd968ac25f11700',
+      vin: 0,
+    },
+    description: 'Short CSV delay',
+    expected: {type: 'csv_delayed'},
+  },
 ];
 
 tests.forEach(({args, description, expected}) => {

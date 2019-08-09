@@ -1,3 +1,5 @@
+const {OP_2} = require('bitcoin-ops');
+const {OP_16} = require('bitcoin-ops');
 const {OP_CHECKSEQUENCEVERIFY} = require('bitcoin-ops');
 const {OP_CHECKSIG} = require('bitcoin-ops');
 const {OP_DROP} = require('bitcoin-ops');
@@ -43,7 +45,7 @@ module.exports = ({program}) => {
       return false;
     }
 
-    if (!Buffer.isBuffer(element)) {
+    if (!Buffer.isBuffer(element) && !(element >= OP_2 && element <= OP_16)) {
       return true;
     }
 
