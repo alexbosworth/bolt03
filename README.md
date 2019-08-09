@@ -29,3 +29,20 @@ Determine if witness elements represent a to_local breach remedy witness
     {
       is_remedy: <Witness Elements Are Breach Remedy Witness Elements Bool>
     }
+
+### resolutionType
+
+Get resolution type of input
+
+    {
+      transaction: <Transaction Hex String>
+      vin: <Transaction Input Index Number>
+    }
+
+    @throws
+    <Error>
+
+    @returns
+    {
+      type: <Resolution Type String>
+    }
