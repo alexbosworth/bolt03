@@ -9,7 +9,7 @@
   },
   "description": "Utilities for working with BOLT 03",
   "devDependencies": {
-    "tap": "14.11.0"
+    "tap": "15.0.1"
   },
   "license": "MIT",
   "main": "index.js",
@@ -19,7 +19,7 @@
     "url": "https://github.com/alexbosworth/bolt03.git"
   },
   "scripts": {
-    "test": "tap test/breaches/*.js test/resolutions/*.js"
+    "test": "tap --branches=1 --functions=1 --lines=1 --statements=1 test/breaches/*.js test/resolutions/*.js"
   },
-  "version": "1.2.8"
+  "version": "1.2.9"
 }
