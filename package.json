@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "bitcoin-ops": "1.4.1",
-    "bitcoinjs-lib": "5.2.0"
+    "bitcoinjs-lib": "6.0.0"
   },
   "description": "Utilities for working with BOLT 03",
   "devDependencies": {
@@ -19,7 +19,7 @@
     "url": "https://github.com/alexbosworth/bolt03.git"
   },
   "scripts": {
-    "test": "tap --branches=1 --functions=1 --lines=1 --statements=1 test/breaches/*.js test/resolutions/*.js"
+    "test": "tap --branches=1 --functions=1 --lines=1 --statements=1 test/breaches/*.js test/resolutions/*.js test/types/*.js"
   },
-  "version": "1.2.11"
+  "version": "1.2.12"
 }
