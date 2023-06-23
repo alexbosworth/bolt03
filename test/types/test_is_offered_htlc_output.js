@@ -1,6 +1,6 @@
 const {test} = require('@alexbosworth/tap');
 
-const {isOfferedHtlcOutput} = require('./../../types');
+const {isV0OfferedHtlcOutput} = require('./../../types');
 
 const tests = [
   {
@@ -19,7 +19,7 @@ const tests = [
 
 tests.forEach(({args, description, expected}) => {
   return test(description, ({end, equal}) => {
-    equal(isOfferedHtlcOutput(args), expected, 'Offered is as expected');
+    equal(isV0OfferedHtlcOutput(args), expected, 'Offered is as expected');
 
     return end();
   });

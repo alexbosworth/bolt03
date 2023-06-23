@@ -19,14 +19,14 @@ const {publicKeyByteLength} = require('./../constants');
 
 const {decompile} = script;
 
-/** Determine if a decompiled script is a received htlc output script
+/** Determine if a decompiled script is a v0 received htlc output script
 
   {
     program: <Witness Program Hex String>
   }
 
   @returns
-  <Is Offered Htlc Script Bool>
+  <Is Offered HTLC Script Bool>
 */
 module.exports = ({program}) => {
   const script = decompile(Buffer.from(program, 'hex'));

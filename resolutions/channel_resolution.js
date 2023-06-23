@@ -1,6 +1,10 @@
-const {isOfferedHtlcOutput} = require('./../types');
-const {isReceivedHtlcOutput} = require('./../types');
+const {isAnchorOutput} = require('./../types');
 const {isToLocalOutput} = require('./../types');
+const {isV0OfferedHtlcOutput} = require('./../types');
+const {isV1OfferedHtlcOutput} = require('./../types');
+const {isV0ReceivedHtlcOutput} = require('./../types');
+const {isV1ReceivedHtlcOutput} = require('./../types');
+const {isV1ToRemoteOutput} = require('./../types');
 
 const {preimageByteLength} = require('./../constants');
 const {publicKeyByteLength} = require('./../constants');
@@ -25,7 +29,21 @@ module.exports = ({witness}) => {
     return {type: 'p2wpkh'};
   }
 
-  if (isOfferedHtlcOutput({program})) {
+  if (isAnchorOutput({program})) {
+    return {type: 'anchor'};
+  }
+
+  if (isToLocalOutput({program})) {
+    const [p1, p2] = witness.map(n => Buffer.from(n, 'hex').length);
+
+    if (p1 > sigLen && !p2.length) {
+      return {type: 'csv_delayed'};
+    }
+
+    return {type: 'to_local_breach'};
+  }
+
+  if (isV0OfferedHtlcOutput({program}) || isV1OfferedHtlcOutput({program})) {
     const [p1, p2, p3, p4] = witness.map(n => Buffer.from(n, 'hex').length);
 
     if (!p1 && p2 > sigLen && p3 > sigLen && !p4) {
@@ -39,7 +57,7 @@ module.exports = ({witness}) => {
     return {type: 'offered_htlc'};
   }
 
-  if (isReceivedHtlcOutput({program})) {
+  if (isV0ReceivedHtlcOutput({program}) || isV1ReceivedHtlcOutput({program})) {
     const [p1, p2, p3, p4] = witness.map(n => Buffer.from(n, 'hex').length);
 
     if (p1 > sigLen && !p2) {
@@ -57,14 +75,8 @@ module.exports = ({witness}) => {
     return {type: 'received_htlc'};
   }
 
-  if (isToLocalOutput({program})) {
-    const [p1, p2] = witness.map(n => Buffer.from(n, 'hex').length);
-
-    if (p1 > sigLen && !p2.length) {
-      return {type: 'csv_delayed'};
-    }
-
-    return {type: 'to_local_breach'};
+  if (isV1ToRemoteOutput({program})) {
+    return {type: 'to_remote'};
   }
 
   return {type: 'unknown'};
