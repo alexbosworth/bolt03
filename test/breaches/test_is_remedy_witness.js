@@ -1,4 +1,5 @@
-const {test} = require('@alexbosworth/tap');
+const {deepStrictEqual} = require('node:assert').strict;
+const test = require('node:test');
 
 const {isRemedyWitness} = require('./../../breaches');
 
@@ -28,10 +29,10 @@ const tests = [
 ];
 
 tests.forEach(({args, description, expected}) => {
-  return test(description, ({end, equal}) => {
+  return test(description, (t, end) => {
     const isRemedy = isRemedyWitness(args);
 
-    equal(isRemedy.is_remedy, expected, 'Remedy is detected');
+    deepStrictEqual(isRemedy.is_remedy, expected, 'Remedy is detected');
 
     return end();
   });

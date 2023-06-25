@@ -1,23 +1,23 @@
-const {OP_2} = require('bitcoin-ops');
-const {OP_CHECKLOCKTIMEVERIFY} = require('bitcoin-ops');
-const {OP_CHECKMULTISIG} = require('bitcoin-ops');
-const {OP_CHECKSIG} = require('bitcoin-ops');
-const {OP_DROP} = require('bitcoin-ops');
-const {OP_DUP} = require('bitcoin-ops');
-const {OP_ELSE} = require('bitcoin-ops');
-const {OP_ENDIF} = require('bitcoin-ops');
-const {OP_EQUAL} = require('bitcoin-ops');
-const {OP_EQUALVERIFY} = require('bitcoin-ops');
-const {OP_HASH160} = require('bitcoin-ops');
-const {OP_IF} = require('bitcoin-ops');
-const {OP_SIZE} = require('bitcoin-ops');
-const {OP_SWAP} = require('bitcoin-ops');
-const {script} = require('bitcoinjs-lib');
+const {scriptAsScriptElements} = require('@alexbosworth/blockchain');
 
 const {hash160ByteLength} = require('./../constants');
+const {OP_2} = require('./../ops');
+const {OP_CHECKLOCKTIMEVERIFY} = require('./../ops');
+const {OP_CHECKMULTISIG} = require('./../ops');
+const {OP_CHECKSIG} = require('./../ops');
+const {OP_DROP} = require('./../ops');
+const {OP_DUP} = require('./../ops');
+const {OP_ELSE} = require('./../ops');
+const {OP_ENDIF} = require('./../ops');
+const {OP_EQUAL} = require('./../ops');
+const {OP_EQUALVERIFY} = require('./../ops');
+const {OP_HASH160} = require('./../ops');
+const {OP_IF} = require('./../ops');
+const {OP_SIZE} = require('./../ops');
+const {OP_SWAP} = require('./../ops');
 const {publicKeyByteLength} = require('./../constants');
 
-const {decompile} = script;
+const {isBuffer} = Buffer;
 
 /** Determine if a decompiled script is a v0 received htlc output script
 
@@ -29,7 +29,7 @@ const {decompile} = script;
   <Is Offered HTLC Script Bool>
 */
 module.exports = ({program}) => {
-  const script = decompile(Buffer.from(program, 'hex'));
+  const script = scriptAsScriptElements({script: program}).elements;
 
   const template = [
     // To remote node with revocation key
@@ -58,7 +58,7 @@ module.exports = ({program}) => {
       return false;
     }
 
-    if (!Buffer.isBuffer(element)) {
+    if (!isBuffer(element)) {
       return true;
     }
 

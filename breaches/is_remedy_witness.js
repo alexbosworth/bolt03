@@ -1,32 +1,22 @@
-const {OP_CHECKSEQUENCEVERIFY} = require('bitcoin-ops');
-const {OP_CHECKSIG} = require('bitcoin-ops');
-const {OP_DROP} = require('bitcoin-ops');
-const {OP_ELSE} = require('bitcoin-ops');
-const {OP_ENDIF} = require('bitcoin-ops');
-const {OP_IF} = require('bitcoin-ops');
-const {script} = require('bitcoinjs-lib');
+const {scriptAsScriptElements} = require('@alexbosworth/blockchain');
 
 const {dummyNumberBytes} = require('./constants');
 const {dummyPubKeyBytes} = require('./constants');
 const {dummySignatureBytes} = require('./constants');
+const {OP_CHECKSEQUENCEVERIFY} = require('./../ops');
+const {OP_CHECKSIG} = require('./../ops');
+const {OP_DROP} = require('./../ops');
+const {OP_ELSE} = require('./../ops');
+const {OP_ENDIF} = require('./../ops');
+const {OP_IF} = require('./../ops');
 const {opTrueBytes} = require('./constants');
 
-const {decompile} = script;
+const bufferAsHex = buffer => buffer.toString('hex');
 const dummySignature = Buffer.from(dummySignatureBytes, 'hex');
+const hexAsBuffer = hex => Buffer.from(hex, 'hex');
 const {isArray} = Array;
+const {isBuffer} = Buffer;
 const opTrue = Buffer.from(opTrueBytes, 'hex');
-
-const toLocal = [
-  OP_IF,
-  Buffer.from(dummyPubKeyBytes, 'hex'),
-  OP_ELSE,
-  Buffer.from(dummyNumberBytes, 'hex'),
-  OP_CHECKSEQUENCEVERIFY,
-  OP_DROP,
-  Buffer.from(dummyPubKeyBytes, 'hex'),
-  OP_ENDIF,
-  OP_CHECKSIG,
-];
 
 /** Determine if witness elements represent a to_local breach remedy witness
 
@@ -45,6 +35,18 @@ module.exports = ({witness}) => {
     return {is_remedy: false};
   }
 
+  const toLocal = [
+    OP_IF,
+    hexAsBuffer(dummyPubKeyBytes),
+    OP_ELSE,
+    hexAsBuffer(dummyNumberBytes),
+    OP_CHECKSEQUENCEVERIFY,
+    OP_DROP,
+    hexAsBuffer(dummyPubKeyBytes),
+    OP_ENDIF,
+    OP_CHECKSIG,
+  ];
+
   // Witness must have the correct number of elements
   if (witness.length !== [dummySignature, opTrue, toLocal].length) {
     return {is_remedy: false};
@@ -62,7 +64,9 @@ module.exports = ({witness}) => {
     return {is_remedy: false};
   }
 
-  const scriptElements = decompile(toLocalScript);
+  const script = bufferAsHex(toLocalScript);
+
+  const scriptElements = scriptAsScriptElements({script}).elements;
 
   // Witness script must have the correct number of elements
   if (scriptElements.length !== toLocal.length) {
@@ -72,7 +76,7 @@ module.exports = ({witness}) => {
   const incorrectScriptElement = scriptElements.find((element, i) => {
     const expectedElement = toLocal[i];
 
-    if (Buffer.isBuffer(element)) {
+    if (isBuffer(element)) {
       return element.length < expectedElement.length;
     }
 

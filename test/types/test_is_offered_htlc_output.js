@@ -1,4 +1,5 @@
-const {test} = require('@alexbosworth/tap');
+const {deepStrictEqual} = require('node:assert').strict;
+const test = require('node:test');
 
 const {isV0OfferedHtlcOutput} = require('./../../types');
 
@@ -18,8 +19,8 @@ const tests = [
 ];
 
 tests.forEach(({args, description, expected}) => {
-  return test(description, ({end, equal}) => {
-    equal(isV0OfferedHtlcOutput(args), expected, 'Offered is as expected');
+  return test(description, (t, end) => {
+    deepStrictEqual(isV0OfferedHtlcOutput(args), expected, 'Got result');
 
     return end();
   });

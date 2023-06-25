@@ -1,28 +1,28 @@
-const {OP_2} = require('bitcoin-ops');
-const {OP_16} = require('bitcoin-ops');
-const {OP_CHECKSEQUENCEVERIFY} = require('bitcoin-ops');
-const {OP_CHECKSIG} = require('bitcoin-ops');
-const {OP_DROP} = require('bitcoin-ops');
-const {OP_ELSE} = require('bitcoin-ops');
-const {OP_ENDIF} = require('bitcoin-ops');
-const {OP_IF} = require('bitcoin-ops');
-const {script} = require('bitcoinjs-lib');
+const {scriptAsScriptElements} = require('@alexbosworth/blockchain');
 
+const {OP_2} = require('./../ops');
+const {OP_16} = require('./../ops');
+const {OP_CHECKSEQUENCEVERIFY} = require('./../ops');
+const {OP_CHECKSIG} = require('./../ops');
+const {OP_DROP} = require('./../ops');
+const {OP_ELSE} = require('./../ops');
+const {OP_ENDIF} = require('./../ops');
+const {OP_IF} = require('./../ops');
 const {publicKeyByteLength} = require('./../constants');
 
-const {decompile} = script;
+const {isBuffer} = Buffer;
 
 /** Determine if a decompiled script is a to local output script
 
   {
-    program: <Witness Program Hex String>
+    program: <Witness Program Buffer Hex String>
   }
 
   @returns
   <Is To Local Script Bool>
 */
 module.exports = ({program}) => {
-  const script = decompile(Buffer.from(program, 'hex'));
+  const script = scriptAsScriptElements({script: program}).elements;
 
   const toLocalOutput = [
     OP_IF,
@@ -45,7 +45,7 @@ module.exports = ({program}) => {
       return false;
     }
 
-    if (!Buffer.isBuffer(element) && !(element >= OP_2 && element <= OP_16)) {
+    if (!isBuffer(element) && !(element >= OP_2 && element <= OP_16)) {
       return true;
     }
 

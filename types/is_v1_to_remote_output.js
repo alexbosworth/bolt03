@@ -1,11 +1,11 @@
-const {OP_1} = require('bitcoin-ops');
-const {OP_CHECKSEQUENCEVERIFY} = require('bitcoin-ops');
-const {OP_CHECKSIGVERIFY} = require('bitcoin-ops');
-const {script} = require('bitcoinjs-lib');
+const {scriptAsScriptElements} = require('@alexbosworth/blockchain');
 
+const {OP_1} = require('./../ops');
+const {OP_CHECKSEQUENCEVERIFY} = require('./../ops');
+const {OP_CHECKSIGVERIFY} = require('./../ops');
 const {publicKeyByteLength} = require('./../constants');
 
-const {decompile} = script;
+const {isBuffer} = Buffer;
 
 /** Determine if a decompiled script is a v1 to remote output script
 
@@ -17,7 +17,7 @@ const {decompile} = script;
   <Is To Remote Script Bool>
 */
 module.exports = ({program}) => {
-  const script = decompile(Buffer.from(program, 'hex'));
+  const script = scriptAsScriptElements({script: program}).elements;
 
   const toRemoteOutput = [
     'public_key', OP_CHECKSIGVERIFY,
@@ -33,7 +33,7 @@ module.exports = ({program}) => {
       return false;
     }
 
-    if (!Buffer.isBuffer(element) && !(element >= OP_2 && element <= OP_16)) {
+    if (!isBuffer(element) && !(element >= OP_2 && element <= OP_16)) {
       return true;
     }
 

@@ -1,4 +1,5 @@
-const {test} = require('@alexbosworth/tap');
+const {deepStrictEqual} = require('node:assert').strict;
+const test = require('node:test');
 
 const {resolutionType} = require('./../../resolutions');
 
@@ -62,10 +63,10 @@ const tests = [
 ];
 
 tests.forEach(({args, description, expected}) => {
-  return test(description, ({end, equal}) => {
+  return test(description, (t, end) => {
     const {type} = resolutionType(args);
 
-    equal(type, expected.type, 'Type is resolved');
+    deepStrictEqual(type, expected.type, 'Type is resolved');
 
     return end();
   });

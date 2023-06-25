@@ -1,4 +1,5 @@
-const {test} = require('@alexbosworth/tap');
+const {deepStrictEqual} = require('node:assert').strict;
+const test = require('node:test');
 
 const {channelResolution} = require('./../../resolutions');
 
@@ -86,10 +87,10 @@ const tests = [
 ];
 
 tests.forEach(({args, description, expected}) => {
-  return test(description, ({end, equal}) => {
+  return test(description, (t, end) => {
     const {type} = channelResolution(args);
 
-    equal(type, expected, 'Type is as expected');
+    deepStrictEqual(type, expected, 'Type is as expected');
 
     return end();
   });

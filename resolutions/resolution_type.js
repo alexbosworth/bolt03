@@ -1,8 +1,6 @@
-const {Transaction} = require('bitcoinjs-lib');
+const {componentsOfTransaction} = require('@alexbosworth/blockchain');
 
 const channelResolution = require('./channel_resolution');
-
-const {fromHex} = Transaction;
 
 /** Get resolution type of input
 
@@ -20,9 +18,9 @@ const {fromHex} = Transaction;
   }
 */
 module.exports = ({transaction, vin}) => {
-  const tx = fromHex(transaction);
+  const {inputs} = componentsOfTransaction({transaction});
 
-  const witness = tx.ins[vin].witness.map(n => n.toString('hex'));
+  const witness = inputs[vin].witness || [];
 
   return {type: channelResolution({witness}).type};
 };
