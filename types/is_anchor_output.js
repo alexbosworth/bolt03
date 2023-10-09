@@ -30,7 +30,7 @@ module.exports = ({program}) => {
     OP_ENDIF,
   ];
 
-  if (script.length !== anchorOutput.length) {
+  if (!script || script.length !== anchorOutput.length) {
     return false;
   }
 

@@ -53,7 +53,7 @@ module.exports = ({program}) => {
     OP_ENDIF,
   ];
 
-  if (script.length !== offeredHtlcOutput.length) {
+  if (!script || script.length !== offeredHtlcOutput.length) {
     return false;
   }
 

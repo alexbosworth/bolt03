@@ -24,7 +24,7 @@ module.exports = ({program}) => {
     OP_1, OP_CHECKSEQUENCEVERIFY,
   ];
 
-  if (script.length !== toRemoteOutput.length) {
+  if (!script || script.length !== toRemoteOutput.length) {
     return false;
   }
 

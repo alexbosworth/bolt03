@@ -36,7 +36,7 @@ module.exports = ({program}) => {
     OP_CHECKSIG,
   ];
 
-  if (script.length !== toLocalOutput.length) {
+  if (!script || script.length !== toLocalOutput.length) {
     return false;
   }
 
