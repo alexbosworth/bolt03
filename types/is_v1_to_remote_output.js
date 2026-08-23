@@ -1,6 +1,8 @@
 const {scriptAsScriptElements} = require('@alexbosworth/blockchain');
 
 const {OP_1} = require('./../ops');
+const {OP_2} = require('./../ops');
+const {OP_16} = require('./../ops');
 const {OP_CHECKSEQUENCEVERIFY} = require('./../ops');
 const {OP_CHECKSIGVERIFY} = require('./../ops');
 const {publicKeyByteLength} = require('./../constants');

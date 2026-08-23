@@ -19,11 +19,16 @@ const sigLen = 69;
 
   @returns
   {
-    [type]: <Channel Resolution Type String>
+    type: <Channel Resolution Type String>
   }
 */
 module.exports = ({witness}) => {
   const [program] = witness.slice().reverse();
+
+  // An empty witness cannot be classified, eg a P2A shared anchor spend
+  if (!program) {
+    return {type: 'unknown'};
+  }
 
   if (Buffer.from(program, 'hex').length === publicKeyByteLength) {
     return {type: 'p2wpkh'};
@@ -36,7 +41,7 @@ module.exports = ({witness}) => {
   if (isToLocalOutput({program})) {
     const [p1, p2] = witness.map(n => Buffer.from(n, 'hex').length);
 
-    if (p1 > sigLen && !p2.length) {
+    if (p1 > sigLen && !p2) {
       return {type: 'csv_delayed'};
     }
 
@@ -52,6 +57,10 @@ module.exports = ({witness}) => {
 
     if (p1 > sigLen && p2 === preimageByteLength && !p4) {
       return {type: 'offered_htlc_settled'};
+    }
+
+    if (p1 > sigLen && p2 === publicKeyByteLength) {
+      return {type: 'offered_htlc_breach'};
     }
 
     return {type: 'offered_htlc'};

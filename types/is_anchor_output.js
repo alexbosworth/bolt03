@@ -1,9 +1,9 @@
 const {scriptAsScriptElements} = require('@alexbosworth/blockchain');
 
+const {OP_2} = require('./../ops');
 const {OP_16} = require('./../ops');
 const {OP_CHECKSEQUENCEVERIFY} = require('./../ops');
 const {OP_CHECKSIG} = require('./../ops');
-const {OP_DROP} = require('./../ops');
 const {OP_ENDIF} = require('./../ops');
 const {OP_IFDUP} = require('./../ops');
 const {OP_NOTIF} = require('./../ops');

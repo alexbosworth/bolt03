@@ -71,3 +71,13 @@ tests.forEach(({args, description, expected}) => {
     return end();
   });
 });
+
+test('An input without a witness has an unknown resolution', (t, end) => {
+  const legacySpendTx = '010000000100000000000000000000000000000000000000000000000000000000000000000000000000ffffffff0100000000000000000000000000';
+
+  const {type} = resolutionType({transaction: legacySpendTx, vin: 0});
+
+  deepStrictEqual(type, 'unknown', 'Type is unknown');
+
+  return end();
+});

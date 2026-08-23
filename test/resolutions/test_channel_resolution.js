@@ -1,9 +1,14 @@
 const {deepStrictEqual} = require('node:assert').strict;
 const test = require('node:test');
 
-const {channelResolution} = require('./../../resolutions');
+const {channelResolution} = require('./../..');
 
 const tests = [
+  {
+    args: {witness: []},
+    description: 'An empty witness resolution type is unknown',
+    expected: 'unknown',
+  },
   {
     args: {
       witness: [
@@ -37,6 +42,37 @@ const tests = [
     },
     description: 'To local csv delay',
     expected: 'csv_delayed',
+  },
+  {
+    args: {
+      witness: [
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '01',
+        '63210275600fb92663ce98cfeeefe5bf3c03964848a07702bc42db4c608e0fbf99050867025802b27521035a12f81dfd50677a2256300f03b6c3c2ab133c8a9e423dfd5fad41edbf5a7dcc68ac',
+      ],
+    },
+    description: 'To local breach remedy',
+    expected: 'to_local_breach',
+  },
+  {
+    args: {
+      witness: [
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '210275600fb92663ce98cfeeefe5bf3c03964848a07702bc42db4c608e0fbf99050876736460b268',
+      ],
+    },
+    description: 'Near-anchor script is unknown and does not throw',
+    expected: 'unknown',
+  },
+  {
+    args: {
+      witness: [
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '210275600fb92663ce98cfeeefe5bf3c03964848a07702bc42db4c608e0fbf990508ac51b2',
+      ],
+    },
+    description: 'Near-to_remote script is unknown and does not throw',
+    expected: 'unknown',
   },
   {
     args: {
@@ -83,6 +119,39 @@ const tests = [
     },
     description: 'Received HTLC timeout',
     expected: 'received_htlc_timeout',
+  },
+  {
+    args: {
+      witness: [
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '0275600fb92663ce98cfeeefe5bf3c03964848a07702bc42db4c608e0fbf990508',
+        '76a9146cc6ab1f4438290bc7841bab7bc909e24039d23f8763ac672102178dfa6581cc59dc5e7393531818d9aeb17a1c76c4573e973dd3ff3fc0550a497c820120876475527c2103fd0f080ede7bc533711b8b2e567ee3d2dc4db92056b8b940866046ee6746ecd652ae67a91478c4b99102eea1bfc56f6befe7b9b8e482136db888ac6868',
+      ],
+    },
+    description: 'Offered HTLC breach scenario',
+    expected: 'offered_htlc_breach',
+  },
+  {
+    args: {
+      witness: [
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '76a9146cc6ab1f4438290bc7841bab7bc909e24039d23f8763ac672102178dfa6581cc59dc5e7393531818d9aeb17a1c76c4573e973dd3ff3fc0550a497c820120876475527c2103fd0f080ede7bc533711b8b2e567ee3d2dc4db92056b8b940866046ee6746ecd652ae67a91478c4b99102eea1bfc56f6befe7b9b8e482136db888ac6868',
+      ],
+    },
+    description: 'Offered HTLC with an unrecognized spend path',
+    expected: 'offered_htlc',
+  },
+  {
+    args: {
+      witness: [
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '3045022100f8a767b28e32f8d8b27064aa9d68eeae6ca1e14db8a5ee4ea53d3a8d3d853329022074e512d4a4dad01f3dd17cb6d05a86117ad02114a97f6bbe46e1e36f02d7a51001',
+        '76a9141ae1de0ffd68893bd5f6fc31b993e80555df4cd58763ac6721035ccefb1942ba7b276b9a6776cff0114e9049fddde33d24c5d9aabc617c820dad7c8201208763a914bd01f43874d2df813b7a75abfa9afc4dbbc6c51a88527c2103451ba18893b9fb9b3c2958a37903a0f994b3c6b24f2ce882644a1246753c60ce52ae677503969408b175ac6868',
+      ],
+    },
+    description: 'Received HTLC with an unrecognized spend path',
+    expected: 'received_htlc',
   },
 ];
 

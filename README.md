@@ -14,7 +14,7 @@ Channel resolution details from witness
 
     @returns
     {
-      [type]: <Channel Resolution Type String>
+      type: <Channel Resolution Type String>
     }
 
 ### isRemedyWitness

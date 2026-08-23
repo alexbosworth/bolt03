@@ -4,9 +4,12 @@
     "url": "https://github.com/alexbosworth/bolt03/issues"
   },
   "dependencies": {
-    "@alexbosworth/blockchain": "1.7.0"
+    "@alexbosworth/blockchain": "4.5.1"
   },
   "description": "Utilities for working with BOLT 03",
+  "engines": {
+    "node": ">=22"
+  },
   "license": "MIT",
   "main": "index.js",
   "name": "bolt03",
@@ -15,7 +18,7 @@
     "url": "https://github.com/alexbosworth/bolt03.git"
   },
   "scripts": {
-    "test": "npx nyc@15.1.0 node --experimental-test-coverage --test test/breaches/*.js test/resolutions/*.js test/types/*.js"
+    "test": "node --experimental-test-coverage --test test/breaches/*.js test/resolutions/*.js test/types/*.js"
   },
-  "version": "1.3.2"
+  "version": "2.0.0"
 }
